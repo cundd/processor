@@ -1,0 +1,43 @@
+{
+    "name": "cundd/processor",
+    "description": "--- . --- . --- >",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andreas Thurnheer-Meier",
+            "email": "tma@iresults.li",
+            "homepage": "http://www.iresults.li/"
+        },
+        {
+            "name": "Daniel Corn",
+            "email": "cod@iresults.li",
+            "homepage": "http://www.iresults.li/"
+        }
+    ],
+    "require": {
+        "symfony/console": "3.2",
+        "iresults/core": "dev-master",
+        "cundd/array_object": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cundd\\Processor\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cundd\\Processor\\Tests\\": "Tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://git.iresults.li/git/iresults/core.git"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "^5.6",
+        "cundd/test-flight": "^0.2.6"
+    }
+}
