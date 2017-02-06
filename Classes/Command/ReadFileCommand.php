@@ -42,38 +42,53 @@ class ReadFileCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $file = $input->getArgument('file');
-        $output->writeln('Read file: ' . $file);
+        if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+            $output->writeln('Read file: ' . $file);
+        }
 
-        $data = \Iresults\Core\DataObject\Factory::collectionFromCsvUrl($file);
-//        $data = array_slice(Util::collection($data)->getArrayCopy(), -1);
-
+        $data = $this->loadDataFromFile($file);
 
         $processor = new Processor();
 
-        $processor->process('map', function(DataObject $row) {
+        $processor
+            ->process(
+                'map',
+                function (DataObject $row) {
 
-            $newRow = clone($row);
-            $newRow['tstamp'] = strtotime($row['tstamp']);
-            $newRow['crdate'] = strtotime($row['crdate']);
+                    $newRow = clone($row);
+                    $newRow['tstamp'] = strtotime($row['tstamp']);
+                    $newRow['crdate'] = strtotime($row['crdate']);
 
-            return $newRow;
-        })
-        ->process('map', function(DataObject $row) {
-            $mem = fopen('php://memory', 'r+');
-            fputcsv($mem, $row->toArray());
-            rewind($mem);
-            return trim(stream_get_contents($mem));
-        })
-            ->process('implode',[PHP_EOL]);
-//        $processor->process('map', $processor->createProcess('collect', 'aufmerksam'));
-//
-//        $processor->process('transform', 'array');
-//        $processor->process('array_count_values');
+                    return $newRow;
+                }
+            )
+            ->process(
+                'map',
+                function (DataObject $row) {
+                    $mem = fopen('php://memory', 'r+');
+                    fputcsv($mem, $row->toArray());
+                    rewind($mem);
+
+                    return trim(stream_get_contents($mem));
+                }
+            )
+            ->process('implode', [PHP_EOL])
+        ->process('print');
 
         $processor->run($data);
-//        var_dump(($processor->getLastOutput()));
 
 
         return 0;
+    }
+
+    /**
+     * Load the data
+     *
+     * @param string $file
+     * @return DataObject[]
+     */
+    protected function loadDataFromFile(string $file)
+    {
+        return \Iresults\Core\DataObject\Factory::collectionFromCsvUrl($file);
     }
 }

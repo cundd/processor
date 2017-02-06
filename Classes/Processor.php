@@ -11,7 +11,6 @@ namespace Cundd\Processor;
 
 use Cundd\Processor\Process\FunctionProcess;
 use Cundd\Processor\Process\ProcessInterface;
-use Iresults\Core\Iresults;
 
 class Processor implements ProcessorInterface
 {
@@ -44,11 +43,6 @@ class Processor implements ProcessorInterface
         foreach ($this->processStack as $key => $process) {
             $currentWorkingData = $process->execute($currentWorkingData, $arguments);
 
-
-//            echo $key . PHP_EOL;
-//            var_dump($currentWorkingData);
-//            echo PHP_EOL;
-//            echo PHP_EOL;
             $this->outputStack[] = $currentWorkingData;
         }
 
@@ -96,5 +90,4 @@ class Processor implements ProcessorInterface
         }
         throw new \InvalidArgumentException(sprintf('No processor found for "%s"', $name));
     }
-
 }
