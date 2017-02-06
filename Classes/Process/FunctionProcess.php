@@ -9,44 +9,34 @@
 namespace Cundd\Processor\Process;
 
 use Cundd\Processor\ProcessorInterface;
-use SebastianBergmann\CodeCoverage\Report\PHP;
-
 
 /**
  * Process that will invoke a function
  */
-class FunctionProcess extends AbstractProcess
+class FunctionProcess extends AbstractFunctionProcess
 {
     /**
      * @var string|callable|array
      */
     protected $callback;
 
-    protected $currentInput;
-    /**
-     * @var array
-     */
-    private $prependArguments;
-    /**
-     * @var array
-     */
-    private $appendArguments;
-
     /**
      * FunctionProcess constructor
      *
-     * @param ProcessorInterface    $processor
+     * @param ProcessorInterface $processor
      * @param array|callable|string $callback
-     * @param array                 $prependArguments
-     * @param array                 $appendArguments
+     * @param array $prependArguments
+     * @param array $appendArguments
      */
-    public function __construct(ProcessorInterface $processor, callable $callback, array $prependArguments = [], array $appendArguments = [])
-    {
-        parent::__construct($processor);
+    public function __construct(
+        ProcessorInterface $processor,
+        callable $callback,
+        array $prependArguments = [],
+        array $appendArguments = []
+    ) {
+        parent::__construct($processor, $prependArguments, $appendArguments);
 
         $this->callback = $callback;
-        $this->prependArguments = $prependArguments;
-        $this->appendArguments = $appendArguments;
     }
 
 
@@ -66,22 +56,5 @@ class FunctionProcess extends AbstractProcess
     {
         var_dump($this->currentInput);
         throw new \ErrorException($message, 0, $code, $file, $line);
-    }
-
-    /**
-     * @param $input
-     * @return array
-     */
-    protected function getCallArguments($input): array
-    {
-        $arguments = $this->prependArguments;
-        $arguments[] = $input;
-        if (count($this->appendArguments) > 0) {
-            array_push($arguments, ...$this->appendArguments);
-
-            return $arguments;
-        }
-
-        return $arguments;
     }
 }

@@ -10,9 +10,10 @@ namespace Cundd\Processor\Process;
 
 
 use Cundd\Processor\Processor;
+use Cundd\Processor\ProcessorChainInterface;
 use Cundd\Processor\ProcessorInterface;
 
-abstract class AbstractProcess implements ProcessInterface, ProcessorInterface
+abstract class AbstractProcess implements ProcessorChainInterface
 {
     /**
      * @var ProcessorInterface
@@ -66,9 +67,9 @@ abstract class AbstractProcess implements ProcessInterface, ProcessorInterface
      *
      * @param string $name
      * @param array  ...$constructorArguments
-     * @return ProcessInterface
+     * @return ProcessorChainInterface
      */
-    public function process(string $name, ...$constructorArguments): ProcessInterface
+    public function process(string $name, ...$constructorArguments): ProcessorChainInterface
     {
         return $this->processor->process($name, ...$constructorArguments);
     }
@@ -78,9 +79,9 @@ abstract class AbstractProcess implements ProcessInterface, ProcessorInterface
      *
      * @param string $name
      * @param array  $constructorArguments
-     * @return ProcessInterface
+     * @return ProcessorChainInterface
      */
-    public function createProcess(string $name, ...$constructorArguments): ProcessInterface
+    public function createProcess(string $name, ...$constructorArguments): ProcessorChainInterface
     {
         return $this->processor->createProcess($name, ...$constructorArguments);
     }

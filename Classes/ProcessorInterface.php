@@ -32,16 +32,16 @@ interface ProcessorInterface
      *
      * @param string $name
      * @param array  ...$constructorArguments
-     * @return ProcessInterface
+     * @return ProcessorChainInterface
      */
-    public function process(string $name, ...$constructorArguments): ProcessInterface;
+    public function process(string $name, ...$constructorArguments): ProcessorChainInterface;
 
     /**
      * Build a new process
      *
      * @param string $name
      * @param array  $constructorArguments
-     * @return ProcessInterface
+     * @return ProcessorChainInterface
      */
-    public function createProcess(string $name, ...$constructorArguments): ProcessInterface;
+    public function createProcess(string $name, ...$constructorArguments): ProcessorChainInterface;
 }

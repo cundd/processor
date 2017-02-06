@@ -63,9 +63,9 @@ class Processor implements ProcessorInterface
     /**
      * @param string $name
      * @param array  ...$constructorArguments
-     * @return ProcessInterface
+     * @return ProcessorChainInterface
      */
-    public function process(string $name, ...$constructorArguments): ProcessInterface
+    public function process(string $name, ...$constructorArguments): ProcessorChainInterface
     {
         $process = $this->createProcess($name, ...$constructorArguments);
         $this->processStack[] = $process;
@@ -76,14 +76,10 @@ class Processor implements ProcessorInterface
     /**
      * @param string $name
      * @param array  $constructorArguments
-     * @return ProcessInterface
+     * @return ProcessorChainInterface
      */
-    public function createProcess(string $name, ...$constructorArguments): ProcessInterface
+    public function createProcess(string $name, ...$constructorArguments): ProcessorChainInterface
     {
-        if (function_exists($name)) {
-            return new FunctionProcess($this, $name, ...$constructorArguments);
-        }
-
         $className = $name;
         if (!class_exists($className)) {
             $className = ucfirst($name);
@@ -91,11 +87,14 @@ class Processor implements ProcessorInterface
         if (!class_exists($className)) {
             $className = 'Cundd\\Processor\\Process\\' . ucfirst($name) . 'Process';
         }
-        if (!class_exists($className)) {
-            throw new \InvalidArgumentException(sprintf('No processor found for "%s"', $name));
+        if (class_exists($className)) {
+            return new $className($this, ...$constructorArguments);
         }
 
-        return new $className($this, ...$constructorArguments);
+        if (function_exists($name)) {
+            return new FunctionProcess($this, $name, ...$constructorArguments);
+        }
+        throw new \InvalidArgumentException(sprintf('No processor found for "%s"', $name));
     }
 
 }

@@ -12,6 +12,7 @@ use Cundd\Processor\Processor;
 use Cundd\Processor\Util;
 use Iresults\Core\DataObject;
 use Iresults\Core\Iresults;
+use LogicException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,21 +32,12 @@ class ReadFileCommand extends Command
     }
 
     /**
-     * Executes the current command.
-     *
-     * This method is not abstract because you can use this class
-     * as a concrete class. In this case, instead of defining the
-     * execute() method, you set the code to execute by passing
-     * a Closure to the setCode() method.
+     * Executes the current command
      *
      * @param InputInterface  $input  An InputInterface instance
      * @param OutputInterface $output An OutputInterface instance
      *
      * @return null|int null or 0 if everything went fine, or an error code
-     *
-     * @throws LogicException When this abstract method is not implemented
-     *
-     * @see setCode()
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -57,13 +49,29 @@ class ReadFileCommand extends Command
 
 
         $processor = new Processor();
-        $processor->process('map', $processor->createProcess('collect', 'aufmerksam'));
 
-        $processor->process('transform', 'array');
-        $processor->process('array_count_values');
+        $processor->process('map', function(DataObject $row) {
+
+            $newRow = clone($row);
+            $newRow['tstamp'] = strtotime($row['tstamp']);
+            $newRow['crdate'] = strtotime($row['crdate']);
+
+            return $newRow;
+        })
+        ->process('map', function(DataObject $row) {
+            $mem = fopen('php://memory', 'r+');
+            fputcsv($mem, $row->toArray());
+            rewind($mem);
+            return trim(stream_get_contents($mem));
+        })
+            ->process('implode',[PHP_EOL]);
+//        $processor->process('map', $processor->createProcess('collect', 'aufmerksam'));
+//
+//        $processor->process('transform', 'array');
+//        $processor->process('array_count_values');
 
         $processor->run($data);
-        var_dump(($processor->getLastOutput()));
+//        var_dump(($processor->getLastOutput()));
 
 
         return 0;
