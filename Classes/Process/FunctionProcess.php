@@ -45,7 +45,7 @@ class FunctionProcess extends AbstractFunctionProcess
         $this->currentInput = $input;
         set_error_handler([$this, 'convertErrorToException']);
 
-        $output = call_user_func_array($this->callback, $this->getCallArguments($input));
+        $output = call_user_func_array($this->callback, $this->getCallArguments($input, $context));
 
         restore_error_handler();
 

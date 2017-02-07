@@ -7,8 +7,6 @@
  */
 namespace Cundd\Processor;
 
-use Cundd\Processor\Process\ProcessInterface;
-
 interface ProcessorInterface
 {
     /**

@@ -8,9 +8,8 @@
 
 namespace Cundd\Processor\Process;
 
+use Cundd\Processor\Argument\ArgumentUtil;
 use Cundd\Processor\ProcessorInterface;
-use SebastianBergmann\CodeCoverage\Report\PHP;
-
 
 /**
  * Process that will invoke a function
@@ -31,7 +30,7 @@ abstract class AbstractFunctionProcess extends AbstractProcess
      *
      * @var array
      */
-    private $appendArguments;
+    protected $appendArguments;
 
     /**
      * FunctionProcess constructor
@@ -52,11 +51,11 @@ abstract class AbstractFunctionProcess extends AbstractProcess
     }
 
     /**
-     * @param int $code
+     * @param int    $code
      * @param string $message
      * @param string $file
-     * @param int $line
-     * @param array $context
+     * @param int    $line
+     * @param array  $context
      * @throws \ErrorException
      */
     public function convertErrorToException($code, $message, $file, $line, array $context)
@@ -66,19 +65,45 @@ abstract class AbstractFunctionProcess extends AbstractProcess
     }
 
     /**
-     * @param $input
+     * @param mixed $input
+     * @param mixed $context
      * @return array
      */
-    protected function getCallArguments($input): array
+    protected function getCallArguments($input, $context = null): array
     {
-        $arguments = $this->prependArguments;
+        $arguments = $this->getPreparedPrependArguments($input, $context);
         $arguments[] = $input;
         if (count($this->appendArguments) > 0) {
-            array_push($arguments, ...$this->appendArguments);
+            $preparedAppendArguments = $this->getPreparedAppendArguments($input, $context);
+            array_push($arguments, ...$preparedAppendArguments);
 
             return $arguments;
         }
 
         return $arguments;
+    }
+
+    /**
+     * Pipe the prepend arguments through the argument pre-processing
+     *
+     * @param $input
+     * @param $context
+     * @return array
+     */
+    protected function getPreparedPrependArguments($input, $context): array
+    {
+        return ArgumentUtil::expandArguments($this->prependArguments, $input, $context);
+    }
+
+    /**
+     * Pipe the append arguments through the argument pre-processing
+     *
+     * @param $input
+     * @param $context
+     * @return array
+     */
+    protected function getPreparedAppendArguments($input, $context): array
+    {
+        return ArgumentUtil::expandArguments($this->appendArguments, $input, $context);
     }
 }

@@ -8,18 +8,14 @@
 
 namespace Cundd\Processor\Command;
 
-use Cundd\Processor\Processor;
-use Cundd\Processor\Util;
+use Cundd\Processor\Io\File\Reader\ReaderFactory;
+use Cundd\Processor\Kernel\KernelProcessor;
 use Iresults\Core\DataObject;
-use Iresults\Core\Iresults;
-use LogicException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 
 use Symfony\Component\Console\Output\OutputInterface;
-
-//Iresults::forceDebug();
 
 class ReadFileCommand extends Command
 {
@@ -28,7 +24,9 @@ class ReadFileCommand extends Command
         $this
             ->setName('read:file')
             ->setDescription('Read and process a file')
-            ->addArgument('file', InputArgument::REQUIRED, 'File to read');
+            ->addArgument('kernel', InputArgument::REQUIRED, 'Script to run')
+            ->addArgument('file', InputArgument::REQUIRED, 'File to import the data from')
+        ;
     }
 
     /**
@@ -42,41 +40,14 @@ class ReadFileCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $file = $input->getArgument('file');
+        $kernel = $input->getArgument('kernel');
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             $output->writeln('Read file: ' . $file);
         }
 
         $data = $this->loadDataFromFile($file);
-
-        $processor = new Processor();
-
-        $processor
-            ->process(
-                'map',
-                function (DataObject $row) {
-
-                    $newRow = clone($row);
-                    $newRow['tstamp'] = strtotime($row['tstamp']);
-                    $newRow['crdate'] = strtotime($row['crdate']);
-
-                    return $newRow;
-                }
-            )
-            ->process(
-                'map',
-                function (DataObject $row) {
-                    $mem = fopen('php://memory', 'r+');
-                    fputcsv($mem, $row->toArray());
-                    rewind($mem);
-
-                    return trim(stream_get_contents($mem));
-                }
-            )
-            ->process('implode', [PHP_EOL])
-        ->process('print');
-
-        $processor->run($data);
-
+        $kernelProcessor = new KernelProcessor();
+        $kernelProcessor->executeKernel($kernel, $data);
 
         return 0;
     }
@@ -85,10 +56,10 @@ class ReadFileCommand extends Command
      * Load the data
      *
      * @param string $file
-     * @return DataObject[]
+     * @return DataObject[]|\Traversable
      */
     protected function loadDataFromFile(string $file)
     {
-        return \Iresults\Core\DataObject\Factory::collectionFromCsvUrl($file);
+        return ReaderFactory::getReaderForUri($file)->read($file);
     }
 }

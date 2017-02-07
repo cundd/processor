@@ -55,19 +55,34 @@ class Processor implements ProcessorInterface
     }
 
     /**
+     * Creates a new Process and attaches it to the chain
+     *
      * @param string $name
      * @param array  ...$constructorArguments
      * @return ProcessorChainInterface
      */
     public function process(string $name, ...$constructorArguments): ProcessorChainInterface
     {
-        $process = $this->createProcess($name, ...$constructorArguments);
+        return $this->attach($this->createProcess($name, ...$constructorArguments));
+    }
+
+    /**
+     * Attaches a Process to the chain
+     *
+     * @param ProcessorChainInterface $process
+     * @return ProcessorChainInterface
+     */
+    public function attach(ProcessorChainInterface $process): ProcessorChainInterface
+    {
+        // TODO: Add this to the interface
         $this->processStack[] = $process;
 
         return $process;
     }
 
     /**
+     * Creates a new Process
+     *
      * @param string $name
      * @param array  $constructorArguments
      * @return ProcessorChainInterface
@@ -79,7 +94,7 @@ class Processor implements ProcessorInterface
             $className = ucfirst($name);
         }
         if (!class_exists($className)) {
-            $className = 'Cundd\\Processor\\Process\\' . ucfirst($name) . 'Process';
+            $className = 'Cundd\\Processor\\Process\\' . $this->prepareClassName($name) . 'Process';
         }
         if (class_exists($className)) {
             return new $className($this, ...$constructorArguments);
@@ -89,5 +104,22 @@ class Processor implements ProcessorInterface
             return new FunctionProcess($this, $name, ...$constructorArguments);
         }
         throw new \InvalidArgumentException(sprintf('No processor found for "%s"', $name));
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    protected function prepareClassName(string $name): string
+    {
+        if (strpos($name, '.') === false) {
+            return $name;
+        }
+
+        if (strtolower(substr($name, 0, 5)) === 'array') {
+            return $this->prepareClassName('collection' . substr($name, 5));
+        }
+
+        return implode('\\', array_map('ucfirst', explode('.', $name)));
     }
 }
