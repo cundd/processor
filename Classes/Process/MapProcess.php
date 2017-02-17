@@ -8,13 +8,9 @@
 
 namespace Cundd\Processor\Process;
 
-
-use Cundd\Processor\Util;
-
-class MapProcess extends FunctionProcess
+/**
+ * Alias for collection.map
+ */
+class MapProcess extends \Cundd\Processor\Process\Collection\MapProcess
 {
-    public function execute($input, $context = null)
-    {
-        return Util::collection($input)->map($this->callback);
-    }
 }
