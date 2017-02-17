@@ -21,10 +21,10 @@ abstract class AbstractIoProcess extends AbstractProcess
     protected $uri;
 
     /**
+     * AbstractIoProcess constructor
      *
-     * AbstractIoProcess constructor.
-     *
-     * @param $uri
+     * @param ProcessorInterface $processor
+     * @param string             $uri
      */
     public function __construct(ProcessorInterface $processor, string $uri)
     {
