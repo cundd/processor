@@ -6,5 +6,6 @@ use Symfony\Component\Console\Application;
 
 $application = new Application();
 $application->add(new \Cundd\Processor\Command\ReadFileCommand());
+$application->add(new \Cundd\Processor\Command\ReadStdinCommand());
 
 $application->run();
