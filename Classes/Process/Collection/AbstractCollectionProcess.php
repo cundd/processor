@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cod
- * Date: 22.12.16
- * Time: 15:26
- */
 
 namespace Cundd\Processor\Process\Collection;
 
 
 use Cundd\Processor\Process\AbstractFunctionProcess;
-use Cundd\Processor\Util;
 
 abstract class AbstractCollectionProcess extends AbstractFunctionProcess
 {

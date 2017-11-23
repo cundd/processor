@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cod
- * Date: 22.12.16
- * Time: 15:27
- */
 
 namespace Cundd\Processor;
 
@@ -26,6 +20,6 @@ abstract class Util
             return static::collection(iterator_to_array($input));
         }
 
-        return static::collection(array($input));
+        return static::collection([$input]);
     }
 }

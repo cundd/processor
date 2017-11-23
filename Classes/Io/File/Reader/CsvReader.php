@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cod
- * Date: 7.2.17
- * Time: 10:08
- */
 
 namespace Cundd\Processor\Io\File\Reader;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cod
- * Date: 22.12.16
- * Time: 15:38
- */
 
 namespace Cundd\Processor\Process;
 
@@ -23,10 +17,10 @@ class FunctionProcess extends AbstractFunctionProcess
     /**
      * FunctionProcess constructor
      *
-     * @param ProcessorInterface $processor
+     * @param ProcessorInterface    $processor
      * @param array|callable|string $callback
-     * @param array $prependArguments
-     * @param array $appendArguments
+     * @param array                 $prependArguments
+     * @param array                 $appendArguments
      */
     public function __construct(
         ProcessorInterface $processor,

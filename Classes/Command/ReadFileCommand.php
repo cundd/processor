@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cod
- * Date: 22.12.16
- * Time: 14:44
- */
 
 namespace Cundd\Processor\Command;
 
@@ -14,7 +8,6 @@ use Iresults\Core\DataObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ReadFileCommand extends Command
@@ -25,8 +18,7 @@ class ReadFileCommand extends Command
             ->setName('read:file')
             ->setDescription('Read and process a file')
             ->addArgument('kernel', InputArgument::REQUIRED, 'Script to run')
-            ->addArgument('file', InputArgument::REQUIRED, 'File to import the data from')
-        ;
+            ->addArgument('file', InputArgument::REQUIRED, 'File to import the data from');
     }
 
     /**

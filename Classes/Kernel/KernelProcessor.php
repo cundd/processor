@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cod
- * Date: 7.2.17
- * Time: 12:25
- */
 
 namespace Cundd\Processor\Kernel;
 

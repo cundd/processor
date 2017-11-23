@@ -1,16 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cod
- * Date: 7.2.17
- * Time: 11:55
- */
 
 namespace Cundd\Processor\Argument;
 
-
-use Cundd\Processor\Process\AbstractFunctionProcess;
-use Cundd\Processor\Process\ProcessInterface;
 
 class ArgumentUtil
 {

@@ -1,20 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cod
- * Date: 22.12.16
- * Time: 14:44
- */
 
 namespace Cundd\Processor\Command;
 
-use Cundd\Processor\Io\File\Reader\ReaderFactory;
 use Cundd\Processor\Kernel\KernelProcessor;
-use Iresults\Core\DataObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ReadStdinCommand extends Command
