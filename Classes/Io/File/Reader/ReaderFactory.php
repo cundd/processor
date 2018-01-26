@@ -18,6 +18,15 @@ class ReaderFactory
      */
     public static function getReaderForUri(string $uri): ReaderInterface
     {
+        if (!trim($uri)) {
+            throw new \InvalidArgumentException('Argument URI must not be empty');
+        }
+        if (!file_exists($uri)) {
+            throw new \InvalidArgumentException(sprintf('File "%s" does not seem to exist', $uri));
+        }
+        if (!is_readable($uri)) {
+            throw new \InvalidArgumentException(sprintf('File "%s" is not readable', $uri));
+        }
         $instance = new static();
 
         return $instance->detectReaderForUri($uri);
