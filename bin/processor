@@ -4,7 +4,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 
-$application = new Application();
+$application = new Application('processor', '1.0.0');
 $application->add(new \Cundd\Processor\Command\ReadFileCommand());
 $application->add(new \Cundd\Processor\Command\ReadStdinCommand());
 
