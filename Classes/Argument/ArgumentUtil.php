@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Argument;
-
 
 class ArgumentUtil
 {
@@ -25,11 +25,11 @@ class ArgumentUtil
     /**
      * Loops over the arguments and transforms them if necessary
      *
-     * @see expandArgument
      * @param array $arguments
      * @param mixed $input
      * @param mixed $context
      * @return array
+     * @see expandArgument
      */
     public static function expandArguments(array $arguments, $input, $context = null): array
     {

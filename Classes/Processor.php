@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor;
-
 
 use Cundd\Processor\Process\FunctionProcess;
 use Cundd\Processor\Process\ProcessInterface;
@@ -29,9 +29,9 @@ class Processor implements ProcessorInterface
     /**
      * @param mixed $input
      * @param array ...$arguments
-     * @return Processor
+     * @return ProcessorInterface
      */
-    public function run($input, ...$arguments): Processor
+    public function run($input, ...$arguments): ProcessorInterface
     {
         $currentWorkingData = $input;
         foreach ($this->processStack as $key => $process) {
@@ -51,8 +51,8 @@ class Processor implements ProcessorInterface
     /**
      * Creates a new Process and attaches it to the chain
      *
-     * @param string $name
-     * @param array  ...$constructorArguments
+     * @param string  $name
+     * @param mixed ...$constructorArguments
      * @return ProcessorChainInterface
      */
     public function process(string $name, ...$constructorArguments): ProcessorChainInterface

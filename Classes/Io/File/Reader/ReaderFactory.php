@@ -1,15 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Io\File\Reader;
 
-
 use Cundd\Processor\Io\ReaderInterface;
 use Cundd\Processor\Io\Type;
+use LogicException;
 
 class ReaderFactory
 {
-
-
     /**
      * Detects the Reader implementation for the given URI
      *
@@ -51,7 +50,7 @@ class ReaderFactory
      */
     private function getReaderForMimeType(string $type): ReaderInterface
     {
-        throw new \LogicException(sprintf('No reader for mime type "%s" found', $type));
+        throw new LogicException(sprintf('No reader for mime type "%s" found', $type));
     }
 
     /**
@@ -71,7 +70,7 @@ class ReaderFactory
     {
         $readerClassName = sprintf('Cundd\\Processor\\Io\\File\\Reader\\%sReader', ucfirst(strtolower($suffix)));
         if (!class_exists($readerClassName)) {
-            throw new \LogicException(sprintf('Reader "%s" not found', $readerClassName));
+            throw new LogicException(sprintf('Reader "%s" not found', $readerClassName));
         }
 
         return new $readerClassName;

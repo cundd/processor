@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Process;
 
 use Cundd\Processor\Argument\ArgumentUtil;
 use Cundd\Processor\ProcessorInterface;
+use ErrorException;
 
 /**
  * Process that will invoke a function
@@ -17,14 +19,14 @@ abstract class AbstractFunctionProcess extends AbstractProcess
      *
      * @var array
      */
-    protected $prependArguments;
+    protected array $prependArguments;
 
     /**
      * Arguments to append when invoking the function
      *
      * @var array
      */
-    protected $appendArguments;
+    protected array $appendArguments;
 
     /**
      * FunctionProcess constructor
@@ -50,12 +52,12 @@ abstract class AbstractFunctionProcess extends AbstractProcess
      * @param string $file
      * @param int    $line
      * @param array  $context
-     * @throws \ErrorException
+     * @throws ErrorException
      */
-    public function convertErrorToException($code, $message, $file, $line, array $context)
+    public function convertErrorToException(int $code, string $message, string $file, int $line, array $context = [])
     {
         var_dump($this->currentInput);
-        throw new \ErrorException($message, 0, $code, $file, $line);
+        throw new ErrorException($message, 0, $code, $file, $line);
     }
 
     /**
@@ -78,7 +80,7 @@ abstract class AbstractFunctionProcess extends AbstractProcess
     }
 
     /**
-     * Pipe the prepend arguments through the argument pre-processing
+     * Pipe the prepend-arguments through the argument pre-processing
      *
      * @param $input
      * @param $context
@@ -90,7 +92,7 @@ abstract class AbstractFunctionProcess extends AbstractProcess
     }
 
     /**
-     * Pipe the append arguments through the argument pre-processing
+     * Pipe the append-arguments through the argument pre-processing
      *
      * @param $input
      * @param $context

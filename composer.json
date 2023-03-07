@@ -15,11 +15,13 @@
         }
     ],
     "require": {
-        "php": "^7.0",
-        "symfony/console": "3.2",
-        "iresults/core": "dev-master",
-        "cundd/array_object": "dev-master"
+        "php": "^7.4 || ^8.0",
+        "ext-fileinfo": "*",
+        "symfony/console": "^5.4.21",
+        "iresults/core": "^3.3.2",
+        "iresults/collection": "^0.2.2"
     },
+    "bin": ["bin/processor"],
     "autoload": {
         "psr-4": {
             "Cundd\\Processor\\": "Classes/"
@@ -30,15 +32,7 @@
             "Cundd\\Processor\\Tests\\": "Tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://git.iresults.li/git/iresults/core.git"
-        }
-    ],
-    "minimum-stability": "dev",
     "require-dev": {
-        "phpunit/phpunit": "^5.6",
-        "cundd/test-flight": "^0.2.6"
+        "cundd/test-flight": "^0.3.0"
     }
 }

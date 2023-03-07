@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Process;
 
 use Cundd\Processor\ProcessorInterface;
 use Iresults\Core\Helpers\ObjectHelper;
-
 
 /**
  * Process that will collect values

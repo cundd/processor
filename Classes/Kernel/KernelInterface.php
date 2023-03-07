@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Kernel;
 
-
 interface KernelInterface
 {
-    function __invoke(array $arguments);
+    public function execute(array $arguments): void;
 }

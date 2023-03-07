@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Process\Collection;
-
 
 use Cundd\Processor\Process\AbstractFunctionProcess;
 
@@ -9,7 +9,6 @@ abstract class AbstractCollectionProcess extends AbstractFunctionProcess
 {
     public function execute($input, $context = null)
     {
-
     }
 
     /**

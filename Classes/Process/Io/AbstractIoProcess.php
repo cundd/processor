@@ -1,24 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Process\Io;
-
 
 use Cundd\Processor\Process\AbstractProcess;
 use Cundd\Processor\ProcessorInterface;
 
 abstract class AbstractIoProcess extends AbstractProcess
 {
-    /**
-     * @var string
-     */
-    protected $uri;
+    protected string $uri;
 
-    /**
-     * AbstractIoProcess constructor
-     *
-     * @param ProcessorInterface $processor
-     * @param string             $uri
-     */
     public function __construct(ProcessorInterface $processor, string $uri)
     {
         parent::__construct($processor);

@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Process;
 
 use Cundd\Processor\ProcessorInterface;
+use function var_dump;
 
 /**
  * Process that will invoke a function
@@ -33,7 +35,6 @@ class FunctionProcess extends AbstractFunctionProcess
         $this->callback = $callback;
     }
 
-
     public function execute($input, $context = null)
     {
         $this->currentInput = $input;
@@ -44,11 +45,5 @@ class FunctionProcess extends AbstractFunctionProcess
         restore_error_handler();
 
         return $output;
-    }
-
-    public function convertErrorToException($code, $message, $file, $line, array $context)
-    {
-        var_dump($this->currentInput);
-        throw new \ErrorException($message, 0, $code, $file, $line);
     }
 }

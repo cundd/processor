@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Process\Collection;
-
 
 use Cundd\Processor\Util;
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Command;
 
@@ -39,6 +40,7 @@ class ReadFileCommand extends Command
 
         $data = $this->loadDataFromFile($file);
         $kernelProcessor = new KernelProcessor();
+        $kernelProcessor->build($kernel, $data);
         $kernelProcessor->executeKernel($kernel, $data);
 
         return 0;

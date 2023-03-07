@@ -1,19 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Process\Io;
-
 
 use Cundd\Processor\ProcessorInterface;
 
 class PrintProcess extends AbstractIoProcess
 {
-    /**
-     * AbstractIoProcess constructor.
-     *
-     * @param ProcessorInterface $processor
-     * @param string             $uri
-     */
-    public function __construct(ProcessorInterface $processor, $uri = 'php://output')
+    public function __construct(ProcessorInterface $processor, string $uri = 'php://output')
     {
         parent::__construct($processor, $uri);
     }

@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Argument;
-
 
 use Cundd\Processor\Process\ProcessInterface;
 
@@ -9,11 +9,6 @@ class ComputedArgument implements ProcessInterface
 {
     private $callback;
 
-    /**
-     * Argument constructor.
-     *
-     * @param $callback
-     */
     public function __construct(callable $callback)
     {
         $this->callback = $callback;

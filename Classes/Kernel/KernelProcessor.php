@@ -1,26 +1,27 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Kernel;
 
-
 use Cundd\Processor\Exception\KernelCompilationException;
 use Cundd\Processor\Exception\KernelExecutionException;
+use Traversable;
 
 class KernelProcessor
 {
     /**
      * Prepares and executes the given kernel
      *
-     * @param string       $kernel
-     * @param \Traversable $data
+     * @param string      $kernel
+     * @param Traversable $data
      */
-    public function executeKernel(string $kernel, \Traversable $data)
+    public function executeKernel(string $kernel, Traversable $data)
     {
         set_error_handler([$this, 'convertErrorToException']);
 
         $kernelInstance = $this->prepareKernel($kernel);
         try {
-            $kernelInstance(['data' => $data]);
+            $kernelInstance->execute(['data' => $data]);
         } catch (\Error $error) {
             restore_error_handler();
 
@@ -44,7 +45,7 @@ class KernelProcessor
      * @throws \ErrorException
      * @internal
      */
-    public function convertErrorToException($code, $message, $file, $line, array $context)
+    public function convertErrorToException($code, $message, $file, $line, array $context = [])
     {
         throw new \ErrorException($message, 0, $code, $file, $line);
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Process;
 
@@ -29,7 +30,7 @@ class TransformProcess extends AbstractProcess
     }
 
 
-    public function execute($input, $context = null)
+    public function execute($input, $context = null): array
     {
         if ($this->targetType === 'array') {
             return (new ArrayTransformer())->execute($input);

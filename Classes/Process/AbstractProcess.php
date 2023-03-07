@@ -1,24 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Process;
 
-
-use Cundd\Processor\Processor;
 use Cundd\Processor\ProcessorChainInterface;
 use Cundd\Processor\ProcessorInterface;
 
 abstract class AbstractProcess implements ProcessorChainInterface
 {
-    /**
-     * @var ProcessorInterface
-     */
-    protected $processor;
+    protected ProcessorInterface $processor;
 
-    /**
-     * AbstractProcess constructor.
-     *
-     * @param ProcessorInterface $processor
-     */
     public function __construct(ProcessorInterface $processor)
     {
         $this->processor = $processor;
@@ -31,7 +22,7 @@ abstract class AbstractProcess implements ProcessorChainInterface
      */
     function __invoke($input, $context = null)
     {
-        return $this->execute($input, $context = null);
+        return $this->execute($input, $context);
     }
 
     /**
@@ -49,9 +40,9 @@ abstract class AbstractProcess implements ProcessorChainInterface
      *
      * @param mixed $input
      * @param array ...$arguments
-     * @return Processor
+     * @return ProcessorInterface
      */
-    public function run($input, ...$arguments): Processor
+    public function run($input, ...$arguments): ProcessorInterface
     {
         return $this->processor->run($input, ...$arguments);
     }

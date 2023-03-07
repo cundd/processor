@@ -1,9 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor;
-
-
-use Cundd\Collection;
 
 abstract class Util
 {

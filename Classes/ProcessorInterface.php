@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor;
 
@@ -16,9 +17,9 @@ interface ProcessorInterface
      *
      * @param mixed $input
      * @param array ...$arguments
-     * @return Processor
+     * @return ProcessorInterface
      */
-    public function run($input, ...$arguments): Processor;
+    public function run($input, ...$arguments): ProcessorInterface;
 
     /**
      * Build and stack a new process

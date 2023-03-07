@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Transformer;
 
@@ -7,7 +8,7 @@ namespace Cundd\Processor\Transformer;
  */
 class ArrayTransformer
 {
-    public function execute($input)
+    public function execute($input): array
     {
         if (is_array($input)) {
             return $input;

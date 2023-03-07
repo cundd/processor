@@ -1,11 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Kernel;
 
+use Cundd\Processor\Processor;
+use Cundd\Processor\ProcessorInterface;
 
 class FileKernel implements KernelInterface
 {
-    private $file = '';
+    private string $file;
 
     /**
      * Kernel constructor.
@@ -17,10 +20,10 @@ class FileKernel implements KernelInterface
         $this->file = $file;
     }
 
-    function __invoke(array $arguments)
+    public function execute(array $arguments): void
     {
         extract($arguments);
 
-        return include $this->file;
+         include $this->file;
     }
 }

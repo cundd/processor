@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Kernel;
 
-
 class StringKernel implements KernelInterface
 {
-    private $script = '';
+    private string $script;
 
     /**
      * Kernel constructor.
@@ -17,10 +17,10 @@ class StringKernel implements KernelInterface
         $this->script = $script;
     }
 
-    function __invoke(array $arguments)
+    public function execute(array $arguments): void
     {
         extract($arguments);
 
-        return eval($this->script);
+        eval($this->script);
     }
 }

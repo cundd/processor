@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Processor\Io\File\Writer;
-
 
 use Cundd\Processor\Io\Type;
 use Cundd\Processor\Io\WriterInterface;
