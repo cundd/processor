@@ -110,7 +110,7 @@ class Processor implements ProcessorInterface
     protected function prepareClassName(string $name): string
     {
         if (strpos($name, '.') === false) {
-            return $name;
+            return ucfirst($name);
         }
 
         if (strtolower(substr($name, 0, 5)) === 'array') {
