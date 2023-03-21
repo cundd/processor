@@ -30,7 +30,9 @@ class KernelProcessor
                     'Error during kernel execution: %s%s',
                     ($error->getCode() > 0 ? "#{$error->getCode()}: " : ''),
                     $error->getMessage()
-                )
+                ),
+                $error->getCode(),
+                $error
             );
         }
         restore_error_handler();
