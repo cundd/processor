@@ -1,6 +1,10 @@
 #!/usr/bin/env php
 <?php
-require __DIR__.'/../vendor/autoload.php';
+if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    fwrite(STDERR, '[ERROR] "vendor" directory not found' . PHP_EOL);
+    die(1);
+}
+require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 
