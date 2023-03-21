@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Traversable;
 
 class ReadFileCommand extends Command
 {
@@ -22,15 +23,7 @@ class ReadFileCommand extends Command
             ->addArgument('file', InputArgument::REQUIRED, 'File to import the data from');
     }
 
-    /**
-     * Executes the current command
-     *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
-     *
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $file = $input->getArgument('file');
         $kernel = $input->getArgument('kernel');
@@ -40,7 +33,6 @@ class ReadFileCommand extends Command
 
         $data = $this->loadDataFromFile($file);
         $kernelProcessor = new KernelProcessor();
-        $kernelProcessor->build($kernel, $data);
         $kernelProcessor->executeKernel($kernel, $data);
 
         return 0;
@@ -50,9 +42,9 @@ class ReadFileCommand extends Command
      * Load the data
      *
      * @param string $file
-     * @return DataObject[]|\Traversable
+     * @return DataObject[]|Traversable
      */
-    protected function loadDataFromFile(string $file)
+    private function loadDataFromFile(string $file): Traversable
     {
         return ReaderFactory::getReaderForUri($file)->read($file);
     }

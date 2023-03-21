@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cundd\Processor\Command;
 
+use ArrayIterator;
 use Cundd\Processor\Kernel\KernelProcessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,15 +20,7 @@ class ReadStdinCommand extends Command
             ->addArgument('kernel', InputArgument::REQUIRED, 'Script to run');
     }
 
-    /**
-     * Executes the current command
-     *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
-     *
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $kernel = $input->getArgument('kernel');
 
@@ -38,16 +31,13 @@ class ReadStdinCommand extends Command
         return 0;
     }
 
-    /**
-     * @return \Traversable
-     */
-    protected function readStdin()
+    private function readStdin(): ArrayIterator
     {
         $input = [];
         while ($line = fgets(STDIN)) {
             $input[] = $line;
         }
 
-        return new \ArrayIterator($input);
+        return new ArrayIterator($input);
     }
 }

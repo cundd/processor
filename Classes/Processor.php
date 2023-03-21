@@ -5,18 +5,20 @@ namespace Cundd\Processor;
 
 use Cundd\Processor\Process\FunctionProcess;
 use Cundd\Processor\Process\ProcessInterface;
+use InvalidArgumentException;
+use function ucfirst;
 
 class Processor implements ProcessorInterface
 {
     /**
      * @var array
      */
-    private $outputStack = [];
+    private array $outputStack = [];
 
     /**
      * @var ProcessInterface[]
      */
-    private $processStack = [];
+    private array $processStack = [];
 
     /**
      * @return mixed
@@ -34,7 +36,7 @@ class Processor implements ProcessorInterface
     public function run($input, ...$arguments): ProcessorInterface
     {
         $currentWorkingData = $input;
-        foreach ($this->processStack as $key => $process) {
+        foreach ($this->processStack as $process) {
             $currentWorkingData = $process->execute($currentWorkingData, $arguments);
 
             $this->outputStack[] = $currentWorkingData;
@@ -51,8 +53,8 @@ class Processor implements ProcessorInterface
     /**
      * Creates a new Process and attaches it to the chain
      *
-     * @param string  $name
-     * @param mixed ...$constructorArguments
+     * @param string $name
+     * @param mixed  ...$constructorArguments
      * @return ProcessorChainInterface
      */
     public function process(string $name, ...$constructorArguments): ProcessorChainInterface
@@ -97,7 +99,8 @@ class Processor implements ProcessorInterface
         if (function_exists($name)) {
             return new FunctionProcess($this, $name, ...$constructorArguments);
         }
-        throw new \InvalidArgumentException(sprintf('No processor found for "%s"', $name));
+
+        throw new InvalidArgumentException(sprintf('No processor found for "%s"', $name));
     }
 
     /**
