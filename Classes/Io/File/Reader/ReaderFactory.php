@@ -17,7 +17,7 @@ class ReaderFactory
      */
     public static function getReaderForUri(string $uri): ReaderInterface
     {
-        if (!trim($uri)) {
+        if (!$uri) {
             throw new \InvalidArgumentException('Argument URI must not be empty');
         }
         if (!file_exists($uri)) {
