@@ -50,6 +50,9 @@ class ReaderFactory
      */
     private function getReaderForMimeType(string $type): ReaderInterface
     {
+        if ($type === 'text/csv') {
+            return $this->getReaderForSuffix('csv');
+        }
         throw new LogicException(sprintf('No reader for mime type "%s" found', $type));
     }
 
